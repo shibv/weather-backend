@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import weatherRoutes from './routes/weatherRoutes.js';
 import { connectDB } from './config/db.js';
@@ -11,7 +10,8 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/api', weatherRoutes);
+app.use('/api/weather', weatherRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
