@@ -4,6 +4,7 @@ import cors from 'cors';
 import weatherRoutes from './routes/weatherRoutes.js';
 import alertRoutes from './routes/alertRoutes.js'
 import { connectDB } from './config/db.js';
+// import './api/weatherScheduler.js'
 
 dotenv.config();
 
