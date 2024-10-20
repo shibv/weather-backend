@@ -4,10 +4,11 @@ export const triggerAlert = async (req, res) => {
     const { city, temp_threshold, condition } = req.body;
 
     try {
-        const latestWeather = await Weather.findOne({ city }).sort({ timestamp: -1 });
+        const city_name = city.toLowerCase();
+        const latestWeather = await Weather.findOne({ city_name }).sort({ timestamp: -1 });
 
         if (!latestWeather) {
-            return res.status(404).json({ message: `No weather data found for city ${city}` });
+            return res.status(404).json({ message: `No weather data found for city ${city_name}` });
         }
 
         let tempAlert = false;
@@ -28,15 +29,15 @@ export const triggerAlert = async (req, res) => {
         if (tempAlert && conditionAlert) {
             alertMessage = `Temperature has crossed ${temp_threshold}°C and condition is ${condition} in ${city}.`;
         } else if (tempAlert) {
-            alertMessage = `Temperature has crossed ${temp_threshold}°C in ${city}.`;
+            alertMessage = `Temperature has crossed ${temp_threshold}°C in ${city_name}.`;
         } else if (conditionAlert) {
-            alertMessage = `Weather condition is ${condition} in ${city}.`;
+            alertMessage = `Weather condition is ${condition} in ${city_name}.`;
         }
 
         res.status(200).json({ alert: tempAlert || conditionAlert, message: alertMessage });
 
     } catch (error) {
-        console.error(`Error checking alert for city ${city}:`, error);
+        console.error(`Error checking alert for city ${city_name}:`, error);
         res.status(500).json({ message: 'Error checking alert' });
     }
 };
