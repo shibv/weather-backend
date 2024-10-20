@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const summarySchema = new mongoose.Schema({
     city: {
         type: String,
@@ -9,7 +8,6 @@ const summarySchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        unique: true, 
     },
     averageTemperature: {
         type: Number,
@@ -29,6 +27,8 @@ const summarySchema = new mongoose.Schema({
     },
 });
 
+// create a compound unique index on city and date
+summarySchema.index({ city: 1, date: 1 }, { unique: true });
 
 const Summary = mongoose.model('Summary', summarySchema);
 
